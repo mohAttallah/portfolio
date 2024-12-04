@@ -10,18 +10,19 @@ import { DesktopNav, MobileNav } from "./navBar";
 
 export { Icons };
 
-const pages = ['About Me', 'Skills', 'Projexts', 'Contact me'];
+const pages = ['About Me', 'Skills', 'Projects', 'Contact me'];
 
 function NavBar() {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
-  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
+  const handleOpenDrawer = () => {
+    setDrawerOpen(true);
   };
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+
+  const handleCloseDrawer = () => {
+    setDrawerOpen(false);
   };
 
   return (
@@ -33,21 +34,14 @@ function NavBar() {
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Icons.AdbIcon
-            sx={{
-              display: { xs: 'none', md: 'flex' },
-              mr: 1,
-              color: theme.palette.primary.main,
-            }}
-          />
           {isDesktop ? (
-            <DesktopNav pages={pages} onClose={handleCloseNavMenu} />
+            <DesktopNav pages={pages} onClose={handleCloseDrawer} />
           ) : (
             <MobileNav
               pages={pages}
-              anchorElNav={anchorElNav}
-              onOpen={handleOpenNavMenu}
-              onClose={handleCloseNavMenu}
+              drawerOpen={drawerOpen}
+              onOpen={handleOpenDrawer}
+              onClose={handleCloseDrawer}
             />
           )}
         </Toolbar>

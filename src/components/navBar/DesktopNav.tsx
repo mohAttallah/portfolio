@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
+import { Icons, Logo, ResumeButton } from '../common';
 
 interface DesktopNavProps {
   pages: string[];
@@ -16,17 +17,31 @@ const DesktopNav = ({ pages, onClose }: DesktopNavProps) => {
         flexGrow: 1,
         display: { md: 'flex' },
         backgroundColor: theme.palette.secondary.main,
+        flexDirection: "row", alignItems: "center", gap: "10px",
+        justifyContent: 'space-evenly',
       }}
     >
-      {pages.map((page) => (
-        <Button
-          key={page}
-          onClick={onClose}
-          sx={{ my: 2, color: theme.palette.primary.main, display: 'block' }}
-        >
-          {page}
-        </Button>
-      ))}
+
+
+      <Logo />
+      <Box
+      sx={{
+        display: { xs: 'none', md: 'flex' },
+        flexDirection: "row", alignItems: "center", gap: "10px",
+        justifyContent: 'space-between',
+      }}
+      >
+        {pages.map((page) => (
+          <Button
+            key={page}
+            onClick={onClose}
+            sx={{ my: 2, color: theme.palette.primary.main, display: 'block', fontSize: '0.9rem', textTransform: 'none', fontWeight: '600' }}
+          >
+            {page}
+          </Button>
+        ))}
+      </Box>
+      <ResumeButton />
     </Box>
   );
 };
