@@ -27,7 +27,7 @@ function NavBar() {
 
   return (
     <AppBar
-      position="static"
+      position="fixed"
       sx={{
         backgroundColor: theme.palette.secondary.main,
       }}
