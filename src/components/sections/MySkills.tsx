@@ -1,9 +1,10 @@
 'use client';
+
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import { useTheme } from '@mui/material/styles';
 
-const AboutMe = () => {
+const MySlills = () => {
     const theme = useTheme();
 
     return (
@@ -31,7 +32,7 @@ const AboutMe = () => {
                     alt="hero"
                     width={600}
                     height={600}
-                    layout="responsive"
+                    style={{ width: '100%', height: 'auto' }}                     
                 />
             </Box>
 
@@ -157,4 +158,4 @@ const AboutMe = () => {
     );
 };
 
-export default AboutMe;
+export default MySlills;

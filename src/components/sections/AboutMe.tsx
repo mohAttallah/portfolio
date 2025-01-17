@@ -32,7 +32,7 @@ const AboutMe = () => {
                     alt="hero"
                     width={600}
                     height={600}
-                    layout="responsive"
+                    style={{ width: '100%', height: 'auto' }}                     
                 />
             </Box>
 
@@ -182,7 +182,7 @@ const AboutMe = () => {
                                 alt="hero"
                                 width={20}
                                 height={20}
-                                layout="responsive"
+                                style={{ width: '100%', height: 'auto' }}
                             />
                         </Link>
                     </Grid>
@@ -205,7 +205,8 @@ const AboutMe = () => {
                                 alt="hero"
                                 width={20}
                                 height={20}
-                                layout="responsive"
+                                style={{ width: '100%', height: 'auto' }}                     
+
                             />
                         </Link>
                     </Grid>
@@ -228,8 +229,8 @@ const AboutMe = () => {
                                 alt="hero"
                                 width={20}
                                 height={20}
-                                layout="responsive"
-                            />
+                                style={{ width: '100%', height: 'auto' }}                     
+                                />
                         </Link>
                     </Grid>
                     <Grid size={{ xs: 1.5, md: 1 }}>
@@ -251,8 +252,8 @@ const AboutMe = () => {
                                 alt="hero"
                                 width={50}
                                 height={50}
-                                layout="responsive"
-                            />
+                                style={{ width: '100%', height: 'auto' }}                     
+                                />
                         </Link>
                     </Grid>
                 </Grid>
