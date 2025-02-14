@@ -5,11 +5,12 @@ interface HeaderSectionsProps {
     firstPart: string;
     secondPart: string;
     textColor?: string;
+    style ?: React.CSSProperties;
     
 }
 
 
-const HeaderSections: React.FC<HeaderSectionsProps> = ({ firstPart, secondPart,  textColor="primary.main" }) => {
+const HeaderSections: React.FC<HeaderSectionsProps> = ({ firstPart, secondPart,  textColor="primary.main", style={} }) => {
     return (
         <Box
             sx={{
@@ -19,6 +20,7 @@ const HeaderSections: React.FC<HeaderSectionsProps> = ({ firstPart, secondPart, 
                 justifyContent: 'center',
                 gap: '10px',
                 marginBottom: '20px',
+                ...style
             }}
         >
             <Typography

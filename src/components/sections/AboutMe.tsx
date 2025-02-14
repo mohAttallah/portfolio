@@ -1,264 +1,41 @@
 'use client';
-import { Box, Typography, Link } from '@mui/material';
+
+import { Box, Container, Grid2, Typography } from '@mui/material';
 import Image from 'next/image';
-import { useTheme } from '@mui/material/styles';
-import Grid from '@mui/material/Grid2';
-
+import { HeaderSections } from '../common';
 const AboutMe = () => {
-    const theme = useTheme();
-
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: { xs: 'column', md: 'row-reverse' },
-                alignItems: 'center',
-                justifyContent: 'space-evenly',
-                gap: { xs: '15px', md: '20px' },
-                padding: '20px',
-                backgroundColor: '#f7f7f7',
-                borderRadius: '20px',
-                boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.1)',
-                margin: '40px',
-                marginTop: '100px',
-            }}
-        >
-            <Box sx={{
-                flexShrink: 1, alignItems: 'center',
-                maxWidth: '600px', width: '100%'
-            }}>
-                <Image
-                    src="/Images/developer.png"
-                    alt="hero"
-                    width={600}
-                    height={600}
-                    style={{ width: '100%', height: 'auto' }}                     
-                />
-            </Box>
+        <Container sx={{ gap: 4, py: 6 }} >
+            <Grid2 container spacing={4}>
 
-            <Box margin={2}
-                sx={
-                    {
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '20px',
-                        [theme.breakpoints.down('sm')]: { gap: '10px' },
-                    }
-                }
-            >
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        gap: '10px',
-                    }}
+                <Grid2
+                    size={{ xs: 12, md: 5 }}
+                    sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                 >
-                    <Typography
-                        component="h2"
-                        sx={{
-                            color: '#000000',
-                            fontSize: '2rem',
-                            [theme.breakpoints.down('sm')]: { fontSize: '1.5rem' },
+                    <Image src='/Images/me.png' alt="Profile Image" width={400} height={400} />
+                </Grid2>
+
+                <Grid2 size={{ xs: 12, md: 7 }} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
+                    <HeaderSections firstPart='About' secondPart='Me'
+                        style={{
 
                         }}
-                    >
-                        Hello I'm
+                    />
+
+                    <Typography variant="body1" sx={{ mt: 2, color: 'text.secondary' }}>
+                        I&apos;m a passionate, self-proclaimed designer who specializes in full stack development (React.js & Node.js). I am very enthusiastic about bringing the technical and visual aspects of digital products to life. User experience, pixel perfect design, and writing clear, readable, highly performant code matters to me.
                     </Typography>
-                    <Typography
-                        component="h2"
-                        sx={{
-                            color: '#000000',
-                            fontSize: '2rem',
-                            [theme.breakpoints.down('sm')]: { fontSize: '1.5rem' },
-                            fontWeight: '900'
-                        }}
-                    >
-                        Mohammad
+                    <Typography variant="body1" sx={{ mt: 2, color: 'text.secondary' }}>
+                        I began my journey as a web developer in 2015, and since then, I&apos;ve continued to grow and evolve as a developer, taking on new challenges and learning the latest technologies along the way. Now, in my early thirties, I&apos;m building cutting-edge web applications using modern technologies such as Next.js, TypeScript, NestJS, Tailwindcss, Supabase, and much more.
                     </Typography>
-                </Box>
-
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        gap: '10px',
-                    }}
-                >
-                    <Typography
-                        variant="h4"
-                        sx={{
-                            color: 'black',
-                            [theme.breakpoints.down('sm')]: { fontSize: '1.5em' },
-
-                            fontWeight: '900'
-                        }}
-                    >
-                        Full Stack
+                    <Typography variant="body1" sx={{ mt: 2, color: 'text.secondary' }}>
+                        When I&apos;m not in full-on developer mode, you can find me hovering around on Twitter or Indie Hacker, witnessing the journey of early startups, or enjoying some free time. You can follow me on Twitter where I share tech-related bites and build in public, or you can follow me on GitHub.
                     </Typography>
-                    <Typography
-                        variant="h4"
-                        sx={{
-                            [theme.breakpoints.down('sm')]: { fontSize: '1.5rem' },
+                </Grid2>
+            </Grid2>
 
-                            fontWeight: '900',
-                            color: 'black',
-                            WebkitTextStroke: '1px black',
-                            WebkitTextFillColor: 'white',
-                        }}
-                    >
-                        Developer
-                    </Typography>
-                </Box>
 
-                {/* Based In Jordan */}
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        gap: '10px',
-                    }}
-                >
-                    <Typography variant="h4" sx={{
-
-                        color: 'black',
-                        [theme.breakpoints.down('sm')]: { fontSize: '1.5rem' },
-
-                    }}>
-                        Based In
-                    </Typography>
-                    <Typography
-                        variant="h4"
-                        sx={{
-                            fontWeight: '900', color: 'black',
-
-                            [theme.breakpoints.down('sm')]: { fontSize: '1.5rem' },
-
-                        }}
-                    >
-                        Jordan
-                    </Typography>
-                </Box>
-
-                <Typography
-                    variant="h6"
-                    sx={{
-                        color: theme.palette.grey[700],
-                        [theme.breakpoints.down('sm')]: { fontSize: '1rem' },
-                        maxWidth: '600px',
-                    }}
-                >
-                    Innovative, creative, and a powerful team player, I hold a BS in Computer Information Systems and have experience as a Full Stack JavaScript Developer intern. I am currently working as a Full Stack Developer and am seeking to secure a new position.
-                </Typography>
-
-                <Grid container spacing={2}
-
-                    sx={{
-                        flexShrink: 1, alignItems: 'center',
-                        maxWidth: '600px', width: '100%',
-                        marginTop: { lg: '100px', md: '0', xs: '0' },
-
-                    }}
-                >
-                    <Grid size={{ xs: 1.5, md: 1 }} >
-                        <Link
-                            sx={{
-                                display: 'flex',
-                                flexShrink: 1,
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                border: 1,
-                                borderColor: 'primary.main',
-                                borderRadius: '5px',
-                                padding: '5px',
-                                backgroundColor: 'primary.main',
-                            }}
-                            href="https://facebook.com"
-                        >
-                            <Image
-                                src="/Images/icons/facebook.png"
-                                alt="hero"
-                                width={20}
-                                height={20}
-                                style={{ width: '100%', height: 'auto' }}
-                            />
-                        </Link>
-                    </Grid>
-                    <Grid size={{ xs: 1.5, md: 1 }}>
-                        <Link
-                            sx={{
-                                display: 'flex',
-                                flexShrink: 1,
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                border: 1,
-                                borderColor: 'primary.main',
-                                borderRadius: '5px',
-                                padding: '5px',
-                            }}
-                            href="https://discord.com"
-                        >
-                            <Image
-                                src="/Images/icons/discord.png"
-                                alt="hero"
-                                width={20}
-                                height={20}
-                                style={{ width: '100%', height: 'auto' }}                     
-
-                            />
-                        </Link>
-                    </Grid>
-                    <Grid size={{ xs: 1.5, md: 1 }}>
-                        <Link
-                            sx={{
-                                display: 'flex',
-                                flexShrink: 1,
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                border: 1,
-                                borderColor: 'primary.main',
-                                borderRadius: '5px',
-                                padding: '5px',
-                            }}
-                            href="https://reddit.com"
-                        >
-                            <Image
-                                src="/Images/icons/reddit.png"
-                                alt="hero"
-                                width={20}
-                                height={20}
-                                style={{ width: '100%', height: 'auto' }}                     
-                                />
-                        </Link>
-                    </Grid>
-                    <Grid size={{ xs: 1.5, md: 1 }}>
-                        <Link
-                            sx={{
-                                display: 'flex',
-                                flexShrink: 1,
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                border: 1,
-                                borderColor: 'primary.main',
-                                borderRadius: '5px',
-                                padding: '5px',
-                            }}
-                            href="https://twitter.com"
-                        >
-                            <Image
-                                src="/Images/icons/twaitter.png"
-                                alt="hero"
-                                width={50}
-                                height={50}
-                                style={{ width: '100%', height: 'auto' }}                     
-                                />
-                        </Link>
-                    </Grid>
-                </Grid>
-            </Box>
-        </Box>
+        </Container>
     );
 };
 
