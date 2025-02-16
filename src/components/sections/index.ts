@@ -1,3 +1,5 @@
+'use client';
+
 import dynamic from 'next/dynamic';
 
 export const LandingSection = dynamic(() => import('./Landing'), { ssr: false });

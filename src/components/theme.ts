@@ -17,6 +17,7 @@ const theme = createTheme({
       primary: '#FFFFFF',
       secondary: '#000000',
     },
+
   },
   typography: {
     fontFamily: 'Sora, sans-serif',

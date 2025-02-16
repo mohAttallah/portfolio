@@ -16,9 +16,10 @@ const DesktopNav = ({ pages, onClose }: DesktopNavProps) => {
       sx={{
         flexGrow: 1,
         display: { md: 'flex' },
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: "secondary.main",
         flexDirection: "row", alignItems: "center", gap: "10px",
         justifyContent: 'space-evenly',
+        boxShadow: 'none',
       }}
     >
 
@@ -26,6 +27,7 @@ const DesktopNav = ({ pages, onClose }: DesktopNavProps) => {
       <Logo />
       <Box
       sx={{
+        
         display: { xs: 'none', md: 'flex' },
         flexDirection: "row", alignItems: "center", gap: "10px",
         justifyContent: 'space-between',

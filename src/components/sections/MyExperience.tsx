@@ -1,3 +1,5 @@
+'use client';
+
 import { Card, CardContent, Typography, Box } from "@mui/material";
 import {HeaderSections} from 'src/components/common';
 import Image from "next/image";

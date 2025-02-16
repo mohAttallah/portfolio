@@ -1,8 +1,7 @@
 'use client';
-import { Box, Typography, Link } from '@mui/material';
+import { Box, Typography, Link, Grid2} from '@mui/material';
 import Image from 'next/image';
 import { useTheme } from '@mui/material/styles';
-import Grid from '@mui/material/Grid2';
 
 const LandingSection = () => {
     const theme = useTheme();
@@ -16,9 +15,7 @@ const LandingSection = () => {
                 justifyContent: 'space-evenly',
                 gap: { xs: '15px', md: '20px' },
                 padding: '20px',
-                backgroundColor: '#f7f7f7',
                 borderRadius: '20px',
-                boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.1)',
                 margin: '40px',
                 marginTop: '100px',
             }}
@@ -32,7 +29,7 @@ const LandingSection = () => {
                     alt="hero"
                     width={600}
                     height={600}
-                    style={{ width: '100%', height: 'auto' }}                     
+                    style={{ width: '100%', height: 'auto' }}
                 />
             </Box>
 
@@ -59,7 +56,7 @@ const LandingSection = () => {
                         sx={{
                             color: '#000000',
                             fontSize: '2rem',
-                            [theme.breakpoints.down('sm')]: { fontSize: '1.5rem' },
+                            [theme.breakpoints.down('sm')]: { fontSize: '1.3em' },
 
                         }}
                     >
@@ -70,7 +67,7 @@ const LandingSection = () => {
                         sx={{
                             color: '#000000',
                             fontSize: '2rem',
-                            [theme.breakpoints.down('sm')]: { fontSize: '1.5rem' },
+                            [theme.breakpoints.down('sm')]: { fontSize: '1.3em' },
                             fontWeight: '900'
                         }}
                     >
@@ -90,7 +87,7 @@ const LandingSection = () => {
                         variant="h4"
                         sx={{
                             color: 'black',
-                            [theme.breakpoints.down('sm')]: { fontSize: '1.5em' },
+                            [theme.breakpoints.down('sm')]: { fontSize: '1.3em' },
 
                             fontWeight: '900'
                         }}
@@ -100,7 +97,7 @@ const LandingSection = () => {
                     <Typography
                         variant="h4"
                         sx={{
-                            [theme.breakpoints.down('sm')]: { fontSize: '1.5rem' },
+                            [theme.breakpoints.down('sm')]: { fontSize: '1.3em' },
 
                             fontWeight: '900',
                             color: 'black',
@@ -112,7 +109,6 @@ const LandingSection = () => {
                     </Typography>
                 </Box>
 
-                {/* Based In Jordan */}
                 <Box
                     sx={{
                         display: 'flex',
@@ -124,7 +120,7 @@ const LandingSection = () => {
                     <Typography variant="h4" sx={{
 
                         color: 'black',
-                        [theme.breakpoints.down('sm')]: { fontSize: '1.5rem' },
+                        [theme.breakpoints.down('sm')]: { fontSize: '1.3em' },
 
                     }}>
                         Based In
@@ -134,7 +130,7 @@ const LandingSection = () => {
                         sx={{
                             fontWeight: '900', color: 'black',
 
-                            [theme.breakpoints.down('sm')]: { fontSize: '1.5rem' },
+                            [theme.breakpoints.down('sm')]: { fontSize: '1.3em' },
 
                         }}
                     >
@@ -150,10 +146,11 @@ const LandingSection = () => {
                         maxWidth: '600px',
                     }}
                 >
-                    Innovative, creative, and a powerful team player, I hold a BS in Computer Information Systems and have experience as a Full Stack JavaScript Developer intern. I am currently working as a Full Stack Developer and am seeking to secure a new position.
+                    Innovative, creative, and a powerful team player, I hold a BS in Computer Information Systems and have experience as a Full Stack JavaScript Developer. I'm currently working as a Software Engineer and am seeking to secure a new position.
+
                 </Typography>
 
-                <Grid container spacing={2}
+                <Grid2 container spacing={2}
 
                     sx={{
                         flexShrink: 1, alignItems: 'center',
@@ -162,7 +159,7 @@ const LandingSection = () => {
 
                     }}
                 >
-                    <Grid size={{ xs: 1.5, md: 1 }} >
+                    <Grid2 size={{ xs: 2.5, sm:1.5, md: 1,  }} >
                         <Link
                             sx={{
                                 display: 'flex',
@@ -175,18 +172,18 @@ const LandingSection = () => {
                                 padding: '5px',
                                 backgroundColor: 'primary.main',
                             }}
-                            href="https://facebook.com"
+                            href="https://www.linkedin.com/in/mohammad-mohmoud-attallah/"
                         >
                             <Image
-                                src="/Images/icons/facebook.png"
+                                src="/Images/icons/linkedin.png"
                                 alt="hero"
-                                width={20}
-                                height={20}
+                                width={30}
+                                height={30}
                                 style={{ width: '100%', height: 'auto' }}
                             />
                         </Link>
-                    </Grid>
-                    <Grid size={{ xs: 1.5, md: 1 }}>
+                    </Grid2>
+                    <Grid2 size={{ xs: 2.5,  sm:1.5, md: 1 }}>
                         <Link
                             sx={{
                                 display: 'flex',
@@ -198,19 +195,18 @@ const LandingSection = () => {
                                 borderRadius: '5px',
                                 padding: '5px',
                             }}
-                            href="https://discord.com"
+                            href="https://github.com/mohAttallah"
                         >
                             <Image
-                                src="/Images/icons/discord.png"
+                                src="/Images/icons/github.png"
                                 alt="hero"
-                                width={20}
-                                height={20}
-                                style={{ width: '100%', height: 'auto' }}                     
-
+                                width={30}
+                                height={30}
+                                style={{ width: '100%', height: 'auto' }}
                             />
                         </Link>
-                    </Grid>
-                    <Grid size={{ xs: 1.5, md: 1 }}>
+                    </Grid2>
+                    <Grid2 size={{ xs: 2.5,  sm:1.5, md: 1 }}>
                         <Link
                             sx={{
                                 display: 'flex',
@@ -222,41 +218,18 @@ const LandingSection = () => {
                                 borderRadius: '5px',
                                 padding: '5px',
                             }}
-                            href="https://reddit.com"
-                        >
-                            <Image
-                                src="/Images/icons/reddit.png"
-                                alt="hero"
-                                width={20}
-                                height={20}
-                                style={{ width: '100%', height: 'auto' }}                     
-                                />
-                        </Link>
-                    </Grid>
-                    <Grid size={{ xs: 1.5, md: 1 }}>
-                        <Link
-                            sx={{
-                                display: 'flex',
-                                flexShrink: 1,
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                border: 1,
-                                borderColor: 'primary.main',
-                                borderRadius: '5px',
-                                padding: '5px',
-                            }}
-                            href="https://twitter.com"
+                            href="https://x.com/MohammadAttal13"
                         >
                             <Image
                                 src="/Images/icons/twaitter.png"
                                 alt="hero"
                                 width={50}
                                 height={50}
-                                style={{ width: '100%', height: 'auto' }}                     
-                                />
+                                style={{ width: '100%', height: 'auto' }}
+                            />
                         </Link>
-                    </Grid>
-                </Grid>
+                    </Grid2>
+                </Grid2>
             </Box>
         </Box>
     );

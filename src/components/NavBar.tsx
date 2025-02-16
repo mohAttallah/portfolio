@@ -1,5 +1,5 @@
 'use client';
-import { useState, MouseEvent } from 'react';
+import { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
@@ -16,6 +16,7 @@ function NavBar() {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const handleOpenDrawer = () => {
     setDrawerOpen(true);
@@ -25,11 +26,27 @@ function NavBar() {
     setDrawerOpen(false);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 200) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <AppBar
       position="fixed"
       sx={{
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: "secondary.main",
+        boxShadow: scrolled ? '0px 4px 20px rgba(0, 0, 0, 0.1)' : 'none',
       }}
     >
       <Container maxWidth="xl">
