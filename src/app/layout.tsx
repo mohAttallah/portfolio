@@ -1,3 +1,5 @@
+'use client';
+
 import type { Metadata } from "next";
 import "./globals.css";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
@@ -12,10 +14,7 @@ const sora = Sora({
 });
 
 
-export const metadata: Metadata = {
-  title: "Portofolio Mohammad Attallah",
-  description: "Portofolio for Mohammad Attallah is a Full stack  developer at csc byond",
-};
+
 
 export default function RootLayout({
   children,

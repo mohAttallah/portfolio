@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from 'react';
+"use client";
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
