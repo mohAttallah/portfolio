@@ -1,7 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+'use server'
+
+
 import { createYoga } from "graphql-yoga";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import nodemailer from "nodemailer";
+import { NextRequest } from "next/server";
 
 interface SendMessageArgs {
   name: string;
@@ -35,8 +38,8 @@ const resolvers = {
 
         const EMAIL_USER = process.env.NEXT_PUBLIC_EMAIL_USER; 
         const EMAIL_PASS = process.env.NEXT_PUBLIC_EMAIL_PASS;
-        console.log("EMAIL_USER",  EMAIL_USER);
-        console.log("EMAIL_PASS",  EMAIL_PASS);
+
+
         if (!EMAIL_PASS) {
           console.error("Email password environment variable not set");
           return {
@@ -88,12 +91,20 @@ const resolvers = {
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-export const { handleRequest } = createYoga({
+interface YogaContext {
+  req: NextRequest;
+}
+
+const yoga = createYoga<YogaContext>({
   schema,
-  graphqlEndpoint: '/api/graphql',
+  graphqlEndpoint: "/api/graphql",
+  context: ({ request }: { request: NextRequest }) => ({ req: request }),
 });
 
-export async function POST(request: Request) {
-  const ctx = {}; 
-  return handleRequest(request, ctx);
-}
+export const GET = async (req: NextRequest) => {
+  return yoga.handleRequest(req, { req });
+};
+
+export const POST = async (req: NextRequest) => {
+  return yoga.handleRequest(req, { req });
+};
