@@ -1,32 +1,30 @@
 'use client';
 
 import { Card, CardContent, Typography, Box } from "@mui/material";
-import {HeaderSections} from 'src/components/common';
+import { HeaderSections } from 'src/components/common';
 import Image from "next/image";
+import { motion } from 'framer-motion';
+
 const experiences = [
+
     {
-        company: "Google",
-        role: "Lead Software Engineer",
-        description:
-            "As a Senior Software Engineer at Google, I played a pivotal role in developing innovative solutions for Google's core search algorithms. Collaborating with a dynamic team of engineers, I contributed to the enhancement of search accuracy and efficiency, optimizing user experiences for millions of users worldwide.",
-        icon: null,
-        period: "Nov 2019 - Present",
-    },
-    {
-        company: "Youtube",
+        company: "CSC  Beyond",
         role: "Software Engineer",
         description:
-            "At Youtube, I served as a Software Engineer, focusing on the design and implementation of backend systems for the social media giant's dynamic platform. Working on projects that involved large-scale data processing and user engagement features, I leveraged my expertise to ensure seamless functionality and scalability.",
-        icon: null,
-        period: "Jan 2017 - Oct 2019",
+            "<br/>  Plan, Design, Develop, and Deploy scalable web and mobile apps. <br/> <br/> After graduating, I started as a Junior Developer, gaining valuable experience in React, TypeScript, NestJS, and Node.js, including building mobile apps with React Native and web apps with Nodejs and Reactjs.",
+        icon: "csc.jpg",
+        period: "Oct 2023 - Present",
+        iconStyle: { width: 100, height: 50 },
+
     },
     {
-        company: "Apple",
+        company: "Abdul Aziz Al Ghurair School of Advanced Computing (ASAC)",
         role: "Junior Software Engineer",
         description:
-            "During my tenure at Apple, I held the role of Software Architect, where I played a key role in shaping the architecture of mission-critical software projects. Responsible for designing scalable and efficient systems, I provided technical leadership to a cross-functional team.",
-        icon: null,
-        period: "Jan 2016 - Dec 2017",
+            "Completed three tasks weekly over a six-month period, focusing on problem-solving and web development tasks using Express and React,implementing unit tests with Jest. <br /><br />Achieved an average score of 95% on the tasks",
+        icon: "ltuc.png",
+        period: "Apr 2023 - Oct 2023",
+        iconStyle: { width: 150, height: 50 },
     },
 ];
 
@@ -38,22 +36,32 @@ const ExperienceSection = () => {
 
             <Box sx={{ maxWidth: 800, mx: "auto" }}>
                 {experiences.map((exp, index) => (
-                    <Card key={index} sx={{  mb: 2, p: 2, backgroundColor: index ===0? "#27272A":"transparent", border: "1px solid #71717A", borderRadius: 10 }}>
+                    <Card key={index} sx={{ mb: 2, p: 2, backgroundColor: index === 0 ? "#27272A" : "transparent", border: "1px solid ", borderColor: index === 0 ? 'transparent' : "#71717A", borderRadius: 2 }}
+                        component={motion.div}
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+
+
+                    >
                         <CardContent>
                             <Box display="flex" alignItems="center" gap={1}>
 
-                                <Image src='/Images/icons/ltuc.png' alt={exp.company} width={120} height={50} />
+                                <Image src={`/Images/icons/${exp.icon}`} alt={exp.company} width={exp.iconStyle.width} height={exp.iconStyle.height} />
 
-                                <Typography variant="h6" fontWeight={600}>
-                                    {exp.role} at {exp.company}
-                                </Typography>
+                                <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", flexWrap: "wrap" }}>
+
+
+                                    <Typography variant="h6" fontWeight={600}>
+                                        {exp.role} at {exp.company}
+                                    </Typography>
+                                    <Typography variant="caption" color="gray">
+                                        {exp.period}
+                                    </Typography>
+                                </Box>
+
                             </Box>
-                            <Typography variant="body2" mt={1} mb={1}>
-                                {exp.description}
-                            </Typography>
-                            <Typography variant="caption" color="gray">
-                                {exp.period}
-                            </Typography>
+                            <Typography variant="body2" mt={1} mb={1} dangerouslySetInnerHTML={{ __html: exp.description }} />
                         </CardContent>
                     </Card>
                 ))}

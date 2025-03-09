@@ -2,11 +2,28 @@
 
 import { Box, Typography, Grid2 } from '@mui/material';
 import Image from 'next/image';
-import { useTheme } from '@mui/material/styles';
 import { HeaderSections } from "src/components/common"
+import { motion } from 'framer-motion';
 
 const MySlills = () => {
-    const theme = useTheme();
+    const fadeInUp = {
+        hidden: { opacity: 0, y: 50 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+    };
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+
+
+
     const skills = [
         {
             id: 2,
@@ -109,69 +126,108 @@ const MySlills = () => {
 
 
     return (
-        <Box
 
-            sx={{
-                display: 'flex',
-                flexDirection: "column",
-                alignItems: 'center',
-                gap: { xs: '15px', md: '20px' },
-                padding: '20px',
-            }}
+        <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={fadeInUp}
         >
-            <HeaderSections firstPart="My" secondPart="Skills" />
+            <Box
 
-
-            <Grid2
-                container
-                width={"100%"}
-                spacing={5}
-                justifyContent="center"
-                alignItems="center"
-
+                sx={{
+                    display: 'flex',
+                    flexDirection: "column",
+                    alignItems: 'center',
+                    gap: { xs: '15px', md: '20px' },
+                    padding: '20px',
+                }}
             >
-                {skills.map((skill) => (
+                <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.3 }}
+                    variants={fadeInUp}
+                >
+                    <HeaderSections firstPart="My" secondPart="Skills" />
+                </motion.div>
+
+                <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.1 }}
+                    style={{ width: '100%' }}
+                >
+
                     <Grid2
-                        key={skill.id}
-                        sx={{
-                            minWidth: { xs: '120px', sm: '150px' },
-                            maxWidth: { xs: '120px',  },
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            textAlign: 'center',
-                            padding: '20px',
-                            gap: '10px',
-                            border: '2px solid #000000',
-                            borderRadius: '10px',
-                            backgroundColor: skill.id === 1 ? '#000000' : 'white',
-                        }}
+                        container
+                        width={"100%"}
+                        spacing={5}
+                        justifyContent="center"
+                        alignItems="center"
+
                     >
-                        <Image
-                            src={skill.icon}
-                            alt={skill.name}
-                            layout="responsive"
-                            width={45}
-                            height={45}
+                        {skills.map((skill) => (
 
-                        />
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                fontSize: '0.7rem',
-                                fontWeight: '600',
-                                color: skill.id === 1 ? 'white' : 'black',
-                            }}
-                        >
-                            {skill.name}
-                        </Typography>
+                            <Grid2
+                                key={skill.id}
+                                component={motion.div}
+                                initial={{ opacity: 0, y: 50 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6 }}
+        
+                            >
+                                <Box
+
+                                    sx={{
+                                        minWidth: { xs: '120px', sm: '150px' },
+                                        maxWidth: { xs: '120px', },
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        textAlign: 'center',
+                                        padding: '20px',
+                                        gap: '10px',
+                                        border: '2px solid #000000',
+                                        borderRadius: '10px',
+                                        backgroundColor: skill.id === 1 ? '#000000' : 'white',
+                                    }}
+                                >
+
+                                    <Image
+                                        src={skill.icon}
+                                        alt={skill.name}
+                                        layout="responsive"
+                                        width={45}
+                                        height={45}
+
+                                    />
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            fontSize: '0.7rem',
+                                            fontWeight: '600',
+                                            color: skill.id === 1 ? 'white' : 'black',
+                                        }}
+                                    >
+                                        {skill.name}
+                                    </Typography>
+                                </Box>
+                            </Grid2>
+
+
+                        ))}
                     </Grid2>
-                ))}
-            </Grid2>
+                </motion.div>
 
 
-        </Box>
+
+            </Box>
+        </motion.div>
+
+
     );
 };
 

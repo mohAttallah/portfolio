@@ -5,12 +5,15 @@ import { useTheme } from '@mui/material/styles';
 import { Icons, Logo, ResumeButton } from '../common';
 
 interface DesktopNavProps {
-  pages: string[];
-  onClose: () => void;
+  pages:  {id: string, name: string}[];
+  scrollToSection: (page: {id: string, name: string}) => void;
 }
 
-const DesktopNav = ({ pages, onClose }: DesktopNavProps) => {
+const DesktopNav = ({ pages, scrollToSection }: DesktopNavProps) => {
   const theme = useTheme();
+
+
+
 
   return (
     <Box
@@ -36,11 +39,12 @@ const DesktopNav = ({ pages, onClose }: DesktopNavProps) => {
       >
         {pages.map((page) => (
           <Button
-            key={page}
-            onClick={onClose}
+          key={page.id}
+          onClick={() => scrollToSection(page)}
+
             sx={{ my: 2, color: theme.palette.primary.main, display: 'block', fontSize: '0.9rem', textTransform: 'none', fontWeight: '600' }}
           >
-            {page}
+            {page.name}
           </Button>
         ))}
       </Box>

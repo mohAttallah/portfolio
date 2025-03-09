@@ -3,21 +3,21 @@ import { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { Icons } from './common';
 import { DesktopNav, MobileNav } from "./navBar";
-
+import { useScreenSize } from './hooks/useScreenSize';
 export { Icons };
 
-const pages = ['About Me', 'Skills', 'Projects', 'Contact me'];
-
+const pages = [
+  { id: 'aboutme', name: 'About Me' },
+  { id: 'skills', name: 'Skills' },
+  { id: 'projects', name: 'Projects' },
+  { id: 'contact', name: 'Contact me' }
+];
 function NavBar() {
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-
+  const { isDesktop } = useScreenSize();
   const handleOpenDrawer = () => {
     setDrawerOpen(true);
   };
@@ -25,6 +25,28 @@ function NavBar() {
   const handleCloseDrawer = () => {
     setDrawerOpen(false);
   };
+
+  const scrollToSection = (section: {id: string, name: string}) => {
+    const element = document.getElementById(section.id);
+    
+    if (element) {
+      const navbarHeight = document.querySelector('header')?.offsetHeight || 80;
+      
+      const elementPosition = element.getBoundingClientRect().top;
+      
+      const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+    
+    handleCloseDrawer();
+  };
+
+
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,7 +56,6 @@ function NavBar() {
         setScrolled(false);
       }
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -52,13 +73,14 @@ function NavBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {isDesktop ? (
-            <DesktopNav pages={pages} onClose={handleCloseDrawer} />
+            <DesktopNav pages={pages} scrollToSection={scrollToSection} />
           ) : (
             <MobileNav
               pages={pages}
               drawerOpen={drawerOpen}
               onOpen={handleOpenDrawer}
               onClose={handleCloseDrawer}
+              scrollToSection={scrollToSection}
             />
           )}
         </Toolbar>

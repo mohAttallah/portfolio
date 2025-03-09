@@ -4,18 +4,19 @@ import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import { Icons, Logo, ResumeButton } from '../common';
 
 interface MobileNavProps {
-    pages: string[];
+    pages:  {id: string, name: string}[];
     drawerOpen: boolean;
     onOpen: () => void;
     onClose: () => void;
+    scrollToSection: (page: {id: string, name: string}) => void;
+
 }
 
-const MobileNav = ({ pages, drawerOpen, onOpen, onClose }: MobileNavProps) => {
+const MobileNav = ({ pages, drawerOpen, onOpen, onClose ,  scrollToSection}: MobileNavProps) => {
     const theme = useTheme();
 
 
@@ -52,8 +53,8 @@ const MobileNav = ({ pages, drawerOpen, onOpen, onClose }: MobileNavProps) => {
                         <Logo />
                         <List>
                             {pages.map((page) => (
-                                <ListItem component="a" key={page} onClick={onClose} href={`#${page.toLowerCase().replace(' ', '-')}`}>
-                                    <ListItemText primary={page} sx={{ textAlign: 'center', color: theme.palette.primary.main }} />
+                                <ListItem component="a" key={page.id} onClick={()=>{scrollToSection(page)}} href={`#${page.name.toLowerCase().replace(' ', '-')}`}>
+                                    <ListItemText primary={page.name} sx={{ textAlign: 'center', color: theme.palette.primary.main }} />
                                 </ListItem>
                             ))}
                             <ListItem component="div" onClick={onClose}>

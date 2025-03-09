@@ -3,6 +3,8 @@
 import React from 'react';
 import { Box, Container, Grid, Paper, Typography } from '@mui/material';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
+import {HeaderSections } from 'src/components/common';
 
 interface Testimonial {
   name: string;
@@ -28,8 +30,8 @@ const testimonials: Testimonial[] = [
     role: 'Designer',
     message:
       'I recently had to jump on 10+ different calls across eight different countries to find the right owner.',
-    avatar: '/Images/user.png', 
-    highlight: true, 
+    avatar: '/Images/user.png',
+    highlight: true,
     rating: 79,
   },
   {
@@ -37,7 +39,7 @@ const testimonials: Testimonial[] = [
     role: 'Designer',
     message:
       'I recently had to jump on 10+ different calls across eight different countries to find the right owner.',
-    avatar: '/Images/user.png', 
+    avatar: '/Images/user.png',
     highlight: false,
     rating: 79,
   },
@@ -47,16 +49,19 @@ const TestimonialsSection: React.FC = () => {
   return (
     <Box component="section" sx={{ py: 8, backgroundColor: '#f9f9f9' }}>
       <Container maxWidth="md">
-        <Typography
-          variant="h4"
-          sx={{ fontWeight: 'bold', textAlign: 'center', mb: 4 }}
-        >
-          My <span style={{ color: '#000' }}>Testimonial</span>
-        </Typography>
 
+        <HeaderSections firstPart="My" secondPart="Testimonials"   />
         <Grid container spacing={4}>
           {testimonials.map((testimonial, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
+            <Grid item xs={12} sm={6} md={4} key={index}
+              component={motion.div}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+
+
+
+            >
               <Paper
                 elevation={0}
                 sx={{
@@ -77,9 +82,7 @@ const TestimonialsSection: React.FC = () => {
                   },
                 }}
               >
-                {/* Avatar + Rating Container */}
                 <Box sx={{ position: 'relative', display: 'inline-block', mb: 2 }}>
-                  {/* Avatar Image */}
                   <Box
                     sx={{
                       width: 80,
