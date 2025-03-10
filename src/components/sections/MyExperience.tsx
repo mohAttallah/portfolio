@@ -18,8 +18,8 @@ const experiences = [
 
     },
     {
-        company: "Abdul Aziz Al Ghurair School of Advanced Computing (ASAC)",
-        role: "Junior Software Engineer",
+        company: "(ASAC)",
+        role: "Full Stack Web Developer JavaScript Intern",
         description:
             "Completed three tasks weekly over a six-month period, focusing on problem-solving and web development tasks using Express and React,implementing unit tests with Jest. <br /><br />Achieved an average score of 95% on the tasks",
         icon: "ltuc.png",
