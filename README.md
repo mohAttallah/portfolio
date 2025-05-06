@@ -1,6 +1,6 @@
 # 🚀 Mohammad Attallah - Personal Portfolio
 
-![Next.js](https://img.shields.io/badge/Next.js-14-blue)   ![Material-UI](https://img.shields.io/badge/Material--UI-v5-orange)  ![GraphQL](https://img.shields.io/badge/GraphQL-API-lightblue)
+![Next.js](https://img.shields.io/badge/Next.js-14-blue)   ![Material-UI](https://img.shields.io/badge/Material--UI-v6-orange)  ![GraphQL](https://img.shields.io/badge/GraphQL-API-lightblue)
 
 
 
@@ -17,7 +17,7 @@ Check out my live portfolio here: [mohammadattallah.live](https://mohammadattall
 This project is built with the following awesome tools:
 
 ![Next.js](https://img.shields.io/badge/Next.js-v14-blue)  
-![Material-UI](https://img.shields.io/badge/Material--UI-v5.0-blue)  
+![Material-UI](https://img.shields.io/badge/Material--UI-v6.13-blue)  
 ![GraphQL](https://img.shields.io/badge/GraphQL-API-blue)
 
 
