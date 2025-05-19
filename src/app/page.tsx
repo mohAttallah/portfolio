@@ -10,7 +10,7 @@ import {
   TestimonialsSection,
   ContactSection
 } from 'src/components/sections';
-
+import ChatBot from 'src/components/chatBot';
 import { PreLoader } from "src/components/common";
 import { Box, Fade } from "@mui/material";
 
@@ -32,6 +32,8 @@ export default function Home() {
         minHeight: "100vh",
       }}
     >
+            <ChatBot />
+
       {loading ? (
         <PreLoader onComplete={() => setLoading(false)} />
       ) : (

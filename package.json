@@ -23,6 +23,7 @@
     "graphql-yoga": "^5.13.1",
     "gsap": "^3.12.7",
     "next": "14.2.15",
+    "node-nlp": "^5.0.0-alpha.5",
     "nodemailer": "^6.10.0",
     "react": "^18",
     "react-dom": "^18",
