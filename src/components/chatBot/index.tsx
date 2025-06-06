@@ -8,56 +8,45 @@ import {
     Paper,
     Avatar,
     CircularProgress,
-    Fade
+    Fade,
+    Button,
+    Chip
 } from '@mui/material';
 import {
     Chat as ChatIcon,
     Send as SendIcon,
     Close as CloseIcon,
-    SmartToy as BotIcon
+    SmartToy as BotIcon,
+    AutoAwesome as SparkleIcon
 } from '@mui/icons-material';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import formatTime from 'src/lib/formatTime';
 import BotButton from './ButtonBot';    
 import BotLoading from './LoadingBot';
-interface Message {
-    id: number;
-    text: string;
-    sender: 'user' | 'bot';
-    timestamp: Date;
-}
-
-const getMockResponse = (userMessage: string): Promise<string> => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            const responses = [
-                "Thanks for your message! This is a demo chat bot.",
-                "I'm just a UI demo without backend integration.",
-                "You can customize this component with real API calls later.",
-                "Feel free to style this component however you like!",
-                "What else would you like to chat about?",
-            ];
-            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-            resolve(randomResponse);
-        }, 1500);
-    });
-};
+import { useChat } from '../hooks';
 
 const ChatBot: React.FC = () => {
-    
     const [open, setOpen] = useState(false);
-    const [messages, setMessages] = useState<Message[]>([]);
     const [newMessage, setNewMessage] = useState('');
-    const [loading, setLoading] = useState(false);
     const [showChat, setShowChat] = useState(false);
     const [showTooltip, setShowTooltip] = useState(true);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    const { 
+        messages, 
+        sendMessage, 
+        loading, 
+        error, 
+        chatbotInfo, 
+        clearMessages, 
+        isTyping 
+    } = useChat();
 
     useEffect(() => {
         if (messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
         }
-    }, [messages]);
+    }, [messages, isTyping]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -82,31 +71,13 @@ const ChatBot: React.FC = () => {
 
         if (newMessage.trim() === '') return;
 
-        const userMsg: Message = {
-            id: Date.now(),
-            text: newMessage,
-            sender: 'user',
-            timestamp: new Date()
-        };
-
-        setMessages(prev => [...prev, userMsg]);        
+        const messageText = newMessage;
         setNewMessage('');
-        setLoading(true);
+        await sendMessage(messageText);
+    };
 
-        try {
-            const response = await getMockResponse(newMessage);
-            const botMsg: Message = {
-                id: Date.now() + 1,
-                text: response,
-                sender: 'bot',
-                timestamp: new Date()
-            };
-            setMessages(prev => [...prev, botMsg]);
-        } catch (error) {
-            console.error('Error getting response:', error);
-        } finally {
-            setLoading(false);
-        }
+    const handleTopicClick = (topic: string) => {
+        setNewMessage(`Tell me about ${topic.toLowerCase()}`);
     };
 
     return (
@@ -153,29 +124,109 @@ const ChatBot: React.FC = () => {
                 <Box
                     sx={{
                         p: 2,
+                        background: 'linear-gradient(135deg, #000000 0%, #27272A 100%)',
                         color: 'white',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
                         borderRadius: { xs: '16px 16px 0 0', sm: '16px 16px 0 0' },
-
                         boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
-                        borderBottom: '1px solid',
-                        borderColor: 'divider',
+                        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                        position: 'relative',
+                        '&::before': {
+                            content: '""',
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            height: '2px',
+                            background: 'linear-gradient(90deg, #FFFFFF 0%, transparent 50%, #FFFFFF 100%)',
+                            opacity: 0.6,
+                        }
                     }}
                 >
-                    <Typography variant="h6" component="div" sx={{ 
-                        fontWeight: 600,
-                        color: 'primary.main'
-                    }}>
-                        Chat Assistant
-                    </Typography>
-                    <IconButton
-                        onClick={handleToggle}
-                        sx={{ color: 'white' }}
-                    >
-                        <CloseIcon />
-                    </IconButton>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Box
+                            sx={{
+                                width: 32,
+                                height: 32,
+                                borderRadius: '50%',
+                                background: 'linear-gradient(135deg, #FFFFFF 0%, #E0E0E0 100%)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                boxShadow: '0 4px 12px rgba(255, 255, 255, 0.2)',
+                            }}
+                        >
+                            <BotIcon sx={{ color: '#000000', fontSize: '1.2rem' }} />
+                        </Box>
+                        <Box>
+                            <Typography variant="h6" component="div" sx={{ 
+                                fontWeight: 600,
+                                color: 'white',
+                                textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+                            }}>
+                                Chat Assistant
+                            </Typography>
+                            {chatbotInfo && (
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                                    <Box
+                                        sx={{
+                                            width: 6,
+                                            height: 6,
+                                            borderRadius: '50%',
+                                            bgcolor: '#00FF88',
+                                            boxShadow: '0 0 8px rgba(0, 255, 136, 0.6)',
+                                        }}
+                                    />
+                                    <Typography variant="caption" sx={{ 
+                                        color: 'rgba(255, 255, 255, 0.8)',
+                                        fontSize: '0.75rem'
+                                    }}>
+                                        {chatbotInfo.status}
+                                    </Typography>
+                                </Box>
+                            )}
+                        </Box>
+                    </Box>
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                        {messages.length > 0 && (
+                            <Button
+                                onClick={clearMessages}
+                                sx={{ 
+                                    color: 'rgba(255, 255, 255, 0.8)', 
+                                    fontSize: '0.75rem',
+                                    minWidth: 'auto',
+                                    px: 1.5,
+                                    py: 0.5,
+                                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                                    borderRadius: 2,
+                                    textTransform: 'none',
+                                    '&:hover': {
+                                        bgcolor: 'rgba(255, 255, 255, 0.1)',
+                                        borderColor: 'rgba(255, 255, 255, 0.4)',
+                                    }
+                                }}
+                                size="small"
+                                title="Clear chat"
+                            >
+                                Clear
+                            </Button>
+                        )}
+                        <IconButton
+                            onClick={handleToggle}
+                            sx={{ 
+                                color: 'white',
+                                '&:hover': {
+                                    bgcolor: 'rgba(255, 255, 255, 0.1)',
+                                    transform: 'scale(1.05)',
+                                },
+                                transition: 'all 0.2s ease-in-out',
+                            }}
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                    </Box>
                 </Box>
 
                 <Fade in={showChat}>
@@ -214,14 +265,140 @@ const ChatBot: React.FC = () => {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                     color: 'text.secondary',
-                                    p: 2,
+                                    p: 3,
                                     textAlign: 'center',
                                 }}
                             >
-                                <ChatIcon sx={{ fontSize: 40, mb: 2, color: 'primary.main' }} />
-                                <Typography variant="body1">
-                                    Send a message to start chatting!
+                                <Box
+                                    sx={{
+                                        width: 80,
+                                        height: 80,
+                                        borderRadius: '50%',
+                                        background: 'linear-gradient(135deg, #000000 0%, #27272A 100%)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        mb: 3,
+                                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+                                        position: 'relative',
+                                        '&::before': {
+                                            content: '""',
+                                            position: 'absolute',
+                                            inset: -2,
+                                            borderRadius: '50%',
+                                            background: 'linear-gradient(135deg, #FFFFFF 0%, #E0E0E0 100%)',
+                                            zIndex: -1,
+                                        }
+                                    }}
+                                    component={motion.div}
+                                    animate={{
+                                        rotateY: [0, 180, 360],
+                                    }}
+                                    transition={{
+                                        duration: 4,
+                                        repeat: Infinity,
+                                        ease: "linear"
+                                    }}
+                                >
+                                    <ChatIcon sx={{ fontSize: 32, color: 'white' }} />
+                                </Box>
+                                <Typography variant="h6" sx={{ 
+                                    mb: 1,
+                                    color: 'primary.main',
+                                    fontWeight: 600
+                                }}>
+                                    Hi! I'm Mohammad's AI Assistant
                                 </Typography>
+                                <Typography variant="body2" sx={{
+                                    color: 'text.secondary',
+                                    mb: 3,
+                                    maxWidth: '280px'
+                                }}>
+                                    I'm here to help you learn more about Mohammad's skills, experience, and projects. What would you like to know?
+                                </Typography>
+                                {chatbotInfo?.availableTopics && (
+                                    <Box sx={{ width: '100%' }}>
+                                        <Typography variant="body2" sx={{ 
+                                            mb: 2, 
+                                            color: 'primary.main',
+                                            fontWeight: 500,
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            gap: 1
+                                        }}>
+                                            <SparkleIcon sx={{ fontSize: '1rem' }} />
+                                            Popular Topics
+                                        </Typography>
+                                        <Box sx={{ 
+                                            display: 'flex', 
+                                            flexDirection: 'column',
+                                            gap: 1,
+                                            width: '100%'
+                                        }}>
+                                            {chatbotInfo.availableTopics.slice(0, 4).map((topic, index) => (
+                                                <Button
+                                                    key={index}
+                                                    onClick={() => handleTopicClick(topic)}
+                                                    variant="outlined"
+                                                    sx={{
+                                                        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(39, 39, 42, 0.8) 100%)',
+                                                        backdropFilter: 'blur(10px)',
+                                                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                                                        color: 'white',
+                                                        textTransform: 'none',
+                                                        borderRadius: 3,
+                                                        py: 1.5,
+                                                        px: 2,
+                                                        fontSize: '0.85rem',
+                                                        fontWeight: 500,
+                                                        position: 'relative',
+                                                        overflow: 'hidden',
+                                                        '&::before': {
+                                                            content: '""',
+                                                            position: 'absolute',
+                                                            top: 0,
+                                                            left: '-100%',
+                                                            width: '100%',
+                                                            height: '100%',
+                                                            background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)',
+                                                            transition: 'left 0.5s ease',
+                                                        },
+                                                        '&:hover': {
+                                                            background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(39, 39, 42, 0.9) 100%)',
+                                                            borderColor: 'rgba(255, 255, 255, 0.3)',
+                                                            transform: 'translateY(-2px)',
+                                                            boxShadow: '0 8px 25px rgba(0, 0, 0, 0.3)',
+                                                            '&::before': {
+                                                                left: '100%',
+                                                            }
+                                                        },
+                                                        transition: 'all 0.3s ease',
+                                                    }}
+                                                    component={motion.div}
+                                                    initial={{ opacity: 0, y: 20 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    transition={{ 
+                                                        duration: 0.3, 
+                                                        delay: index * 0.1 
+                                                    }}
+                                                    whileHover={{ 
+                                                        scale: 1.02,
+                                                        transition: { duration: 0.2 }
+                                                    }}
+                                                    whileTap={{ scale: 0.98 }}
+                                                >
+                                                    <SparkleIcon sx={{ 
+                                                        fontSize: '0.9rem', 
+                                                        mr: 1,
+                                                        opacity: 0.7
+                                                    }} />
+                                                    {topic}
+                                                </Button>
+                                            ))}
+                                        </Box>
+                                    </Box>
+                                )}
                             </Box>
                         ) : (
                             messages.map((message) => (
@@ -230,8 +407,8 @@ const ChatBot: React.FC = () => {
                                     sx={{
                                         display: 'flex',
                                         flexDirection: 'column',
-                                        alignItems: message.sender === 'user' ? 'flex-end' : 'flex-start',
-                                        alignSelf: message.sender === 'user' ? 'flex-end' : 'flex-start',
+                                        alignItems: message.isUser ? 'flex-end' : 'flex-start',
+                                        alignSelf: message.isUser ? 'flex-end' : 'flex-start',
                                         maxWidth: '80%',
                                     }}
                                     component={motion.div}
@@ -240,23 +417,23 @@ const ChatBot: React.FC = () => {
                                     transition={{ duration: 0.3 }}
                                 >
                                     <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
-                                        {message.sender === 'bot' && (
+                                        {!message.isUser && (
                                             <Avatar
                                                 sx={{
                                                     width: 32,
                                                     height: 32,
-                                                    bgcolor: 'primary.main',
-                                                    fontSize: '0.875rem'
+                                                    background: 'linear-gradient(135deg, #000000 0%, #27272A 100%)',
+                                                    fontSize: '0.875rem',
+                                                    border: '2px solid rgba(255, 255, 255, 0.1)',
+                                                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
                                                 }}
                                             >
-                                              
                                                 <BotIcon 
                                                     sx={{
-                                                        fontSize: '1.5rem',
-                                                        color: 'primary.light'
+                                                        fontSize: '1.2rem',
+                                                        color: 'white'
                                                     }}
                                                 />
-
                                             </Avatar>
                                         )}
                                         <Paper
@@ -264,25 +441,77 @@ const ChatBot: React.FC = () => {
                                             sx={{
                                                 p: 1.5,
                                                 borderRadius: 2,
-                                                bgcolor: message.sender === 'user' ? 'primary.main' : 'grey.100',
-                                                color: message.sender === 'user' ? 'white' : 'text.primary',
+                                                background: message.isUser 
+                                                    ? 'linear-gradient(135deg, #000000 0%, #27272A 100%)'
+                                                    : 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 248, 248, 0.95) 100%)',
+                                                color: message.isUser ? 'white' : 'text.primary',
+                                                border: message.isUser 
+                                                    ? '1px solid rgba(255, 255, 255, 0.1)'
+                                                    : '1px solid rgba(0, 0, 0, 0.05)',
+                                                backdropFilter: 'blur(10px)',
+                                                boxShadow: message.isUser 
+                                                    ? '0 4px 20px rgba(0, 0, 0, 0.2)'
+                                                    : '0 4px 20px rgba(0, 0, 0, 0.08)',
+                                                position: 'relative',
+                                                '&::before': message.isUser ? {
+                                                    content: '""',
+                                                    position: 'absolute',
+                                                    top: 0,
+                                                    left: 0,
+                                                    right: 0,
+                                                    height: '1px',
+                                                    background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)',
+                                                } : {}
                                             }}
                                         >
                                             <Typography variant="body2" sx={{ 
-                                                
-                                                color:  message.sender === 'user' ? 'primary.light': 'primary.main'
-
-
-                                             }}>{message.text}</Typography>
+                                                color: message.isUser ? 'primary.light': 'primary.main'
+                                            }}>
+                                                {message.message}
+                                            </Typography>
+                                            {!message.isUser && message.confidence !== undefined && (
+                                                <Box sx={{ 
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 0.5,
+                                                    mt: 1,
+                                                    pt: 1,
+                                                    borderTop: '1px solid rgba(0, 0, 0, 0.1)'
+                                                }}>
+                                                    <Box
+                                                        sx={{
+                                                            width: 12,
+                                                            height: 12,
+                                                            borderRadius: '50%',
+                                                            background: message.confidence > 0.8 
+                                                                ? 'linear-gradient(45deg, #4CAF50, #8BC34A)'
+                                                                : message.confidence > 0.6
+                                                                ? 'linear-gradient(45deg, #FF9800, #FFC107)'
+                                                                : 'linear-gradient(45deg, #F44336, #FF5722)',
+                                                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
+                                                        }}
+                                                    />
+                                                    <Typography variant="caption" sx={{ 
+                                                        color: 'text.secondary',
+                                                        fontSize: '0.7rem',
+                                                        fontWeight: 500
+                                                    }}>
+                                                        Confidence: {Math.round(message.confidence * 100)}%
+                                                    </Typography>
+                                                </Box>
+                                            )}
                                         </Paper>
-                                        {message.sender === 'user' && (
+                                        {message.isUser && (
                                             <Avatar
                                                 sx={{
                                                     width: 32,
                                                     height: 32,
-                                                    bgcolor: 'primary.main',
+                                                    background: 'linear-gradient(135deg, #FFFFFF 0%, #E0E0E0 100%)',
                                                     fontSize: '0.875rem',
-                                                    color: 'primary.light'
+                                                    color: 'black',
+                                                    fontWeight: 600,
+                                                    border: '2px solid rgba(0, 0, 0, 0.1)',
+                                                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
                                                 }}
                                             >
                                                 U
@@ -294,17 +523,47 @@ const ChatBot: React.FC = () => {
                                         sx={{
                                             mt: 0.5,
                                             color: 'text.secondary',
-                                            mr: message.sender === 'user' ? 4 : 0,
-                                            ml: message.sender === 'bot' ? 4 : 0,
+                                            mr: message.isUser ? 4 : 0,
+                                            ml: !message.isUser ? 4 : 0,
                                         }}
                                     >
-                                        {formatTime(message.timestamp)}
+                                        {formatTime(new Date(message.timestamp))}
                                     </Typography>
                                 </Box>
                             ))
                         )}
-                        {loading && (
-                            <BotLoading loading={loading} />
+                        {(isTyping || loading) && (
+                            <BotLoading loading={isTyping || loading} />
+                        )}
+                        {error && (
+                            <Box
+                                sx={{
+                                    p: 1.5,
+                                    background: 'linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(255, 87, 34, 0.1) 100%)',
+                                    color: 'error.main',
+                                    borderRadius: 2,
+                                    mb: 1,
+                                    border: '1px solid rgba(244, 67, 54, 0.2)',
+                                    backdropFilter: 'blur(10px)',
+                                }}
+                            >
+                                <Typography variant="body2" sx={{ 
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 1
+                                }}>
+                                    <Box
+                                        sx={{
+                                            width: 8,
+                                            height: 8,
+                                            borderRadius: '50%',
+                                            bgcolor: 'error.main',
+                                            flexShrink: 0
+                                        }}
+                                    />
+                                    {error}
+                                </Typography>
+                            </Box>
                         )}
                         <div ref={messagesEndRef} />
                     </Box>
@@ -344,7 +603,7 @@ const ChatBot: React.FC = () => {
                         />
                         <IconButton
                             color="primary"
-                            disabled={loading || newMessage.trim() === ''}
+                            disabled={loading || isTyping || newMessage.trim() === ''}
                             onClick={() => handleSendMessage()}
                             sx={{
                                 bgcolor: 'primary.main',
@@ -358,7 +617,7 @@ const ChatBot: React.FC = () => {
                                 }
                             }}
                         >
-                            {loading ? (
+                            {loading || isTyping ? (
                                 <CircularProgress size={24} color="inherit" />
                             ) : (
                                 <SendIcon />

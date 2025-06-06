@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   Box, 
   Button, 
@@ -15,19 +15,9 @@ import {
   SlideProps
 } from "@mui/material";
 import { Facebook, GitHub, Twitter } from "@mui/icons-material";
-import { useMutation, gql } from "@apollo/client";
 import { motion } from "framer-motion";
+import { useEmail } from "../hooks";
 
-const SEND_MESSAGE_MUTATION = gql`
-  mutation SendMessage($name: String!, $email: String!, $message: String!) {
-    sendMessage(name: $name, email: $email, message: $message) {
-      success
-      message
-    }
-  }
-`;
-
-// Animation variants
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0 },
@@ -43,7 +33,6 @@ const staggerContainer = {
   }
 };
 
-// Slide transition for Snackbar
 const SlideTransition = (props: SlideProps) => {
   return <Slide {...props} direction="up" />;
 };
@@ -52,36 +41,43 @@ export default function ContactSection() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [formStatus, setFormStatus] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");
   
-  // Form validation errors
   const [errors, setErrors] = useState({
     name: "",
     email: "",
     message: ""
   });
 
-  const [sendMessage, { loading, error }] = useMutation(SEND_MESSAGE_MUTATION, {
-    onCompleted: (data) => {
-      setFormStatus(data.sendMessage.message);
-      setSnackbarSeverity(data.sendMessage.success ? "success" : "error");
+  const { 
+    sendEmail, 
+    loading, 
+    error: emailError, 
+    success: emailSuccess, 
+    response: emailResponse, 
+    reset: resetEmail 
+  } = useEmail();
+
+  useEffect(() => {
+    if (emailSuccess && emailResponse) {
+      setSnackbarSeverity("success");
       setOpenSnackbar(true);
-      
-      if (data.sendMessage.success) {
-        setName("");
-        setEmail("");
-        setMessage("");
-      }
-    },
-    onError: (err) => {
-      setFormStatus("An error occurred. Please try again.");
+      setName("");
+      setEmail("");
+      setMessage("");
+      setErrors({ name: "", email: "", message: "" });
+    }
+  }, [emailSuccess, emailResponse]);
+
+  useEffect(() => {
+    if (emailError) {
       setSnackbarSeverity("error");
       setOpenSnackbar(true);
-      console.error("Mutation error:", err);
-    },
-  });
+    }
+  }, [emailError]);
+
+  
 
   const validateForm = () => {
     let isValid = true;
@@ -91,13 +87,11 @@ export default function ContactSection() {
       message: ""
     };
 
-    // Name validation
     if (!name.trim()) {
       newErrors.name = "Name is required";
       isValid = false;
     }
 
-    // Email validation
     if (!email.trim()) {
       newErrors.email = "Email is required";
       isValid = false;
@@ -106,7 +100,6 @@ export default function ContactSection() {
       isValid = false;
     }
 
-    // Message validation
     if (!message.trim()) {
       newErrors.message = "Message is required";
       isValid = false;
@@ -119,15 +112,12 @@ export default function ContactSection() {
     return isValid;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (validateForm()) {
-      sendMessage({
-        variables: { name, email, message },
-      });
+      await sendEmail({ name, email, message });
     } else {
-      setFormStatus("Please correct the errors in the form.");
       setSnackbarSeverity("error");
       setOpenSnackbar(true);
     }
@@ -135,6 +125,10 @@ export default function ContactSection() {
 
   const handleSnackbarClose = () => {
     setOpenSnackbar(false);
+    // Reset email hook state when snackbar closes
+    if (emailError || emailSuccess) {
+      resetEmail();
+    }
   };
 
   return (
@@ -290,7 +284,6 @@ export default function ContactSection() {
         </Grid2>
       </Grid2>
 
-      {/* Snackbar for notifications */}
       <Snackbar
         open={openSnackbar}
         autoHideDuration={6000}
@@ -303,7 +296,7 @@ export default function ContactSection() {
           severity={snackbarSeverity} 
           sx={{ width: '100%' }}
         >
-          {formStatus}
+          {emailError || emailResponse?.message || "Please correct the errors in the form."}
         </Alert>
       </Snackbar>
     </Container>
