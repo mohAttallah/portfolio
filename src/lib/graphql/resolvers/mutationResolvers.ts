@@ -42,7 +42,23 @@ export const mutationResolvers = {
     }
 
     try {
-      return await nlpService.processMessage(message);
+      if (!message || typeof message !== 'string') {
+        return {
+          message: "Please provide a valid message.",
+          confidence: 0,
+          intent: 'error',
+          timestamp: new Date().toISOString()
+        };
+      }
+
+      const result = await nlpService.processMessage(message);
+      console.log('Chatbot Response:', result);
+      return {
+        message: result.message || "I'm sorry, something went wrong.",
+        confidence: typeof result.confidence === 'number' ? result.confidence : 0,
+        intent: result.intent || 'unknown',
+        timestamp: result.timestamp || new Date().toISOString()
+      };
     } catch (error) {
       console.error('Chatbot Error:', error);
       return {

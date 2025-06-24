@@ -17,9 +17,8 @@ class EmailService {
   private async getTransporter(): Promise<nodemailer.Transporter> {
     if (this.transporter) return this.transporter;
 
-    // Remove NEXT_PUBLIC_ prefix for sensitive data (use regular env vars)
-    const EMAIL_USER = process.env.EMAIL_USER || process.env.NEXT_PUBLIC_EMAIL_USER; 
-    const EMAIL_PASS = process.env.EMAIL_PASS || process.env.NEXT_PUBLIC_EMAIL_PASS;
+    const EMAIL_USER = process.env.NEXT_PUBLIC_EMAIL_USER; 
+    const EMAIL_PASS = process.env.NEXT_PUBLIC_EMAIL_PASS;
 
     if (!EMAIL_PASS || !EMAIL_USER) {
       console.error("Email configuration missing:", {

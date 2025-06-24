@@ -5,7 +5,6 @@ import { HeaderSections } from 'src/components/common';
 import Image from "next/image";
 import { motion } from 'framer-motion';
 
-// Animation variants
 const cardVariants = {
   hidden: { opacity: 0, y: 50 },
   visible: { 

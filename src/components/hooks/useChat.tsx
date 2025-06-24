@@ -50,6 +50,7 @@ interface ChatbotInfo {
 interface UseChatReturn {
   messages: ChatMessage[];
   sendMessage: (message: string) => Promise<void>;
+  addBotMessage: (message: string) => void;
   loading: boolean;
   error: string | null;
   chatbotInfo: ChatbotInfo | null;
@@ -86,30 +87,44 @@ export const useChat = (): UseChatReturn => {
       setMessages(prev => [...prev, userMessage]);
 
       const result = await chatMutation({
-        variables: { message: messageText }
+        variables: { message: messageText },
+        errorPolicy: 'all' 
       });
 
       const chatResponse: ChatResponse = result.data?.chat;
 
-      if (chatResponse) {
+      if (chatResponse && chatResponse.message) {
         const botMessage: ChatMessage = {
           id: generateId(),
           message: chatResponse.message,
           isUser: false,
-          timestamp: chatResponse.timestamp,
-          confidence: chatResponse.confidence,
-          intent: chatResponse.intent
+          timestamp: chatResponse.timestamp || new Date().toISOString(),
+          confidence: chatResponse.confidence || 0,
+          intent: chatResponse.intent || 'unknown'
         };
 
         setMessages(prev => [...prev, botMessage]);
+      } else if (result.errors && result.errors.length > 0) {
+        console.error('GraphQL errors:', result.errors);
+        throw new Error('GraphQL query failed');
+      } else {
+        throw new Error('No response received from chat service');
       }
     } catch (err) {
       console.error('Chat error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to send message');
+      const errorMsg = err instanceof Error ? err.message : 'Failed to send message';
+      setError(errorMsg);
+      
+      let userFriendlyMessage = 'Sorry, I encountered an error. Please try again.';
+      if (errorMsg.includes('NetworkError') || errorMsg.includes('fetch')) {
+        userFriendlyMessage = 'Network error. Please check your connection and try again.';
+      } else if (errorMsg.includes('timeout')) {
+        userFriendlyMessage = 'Request timed out. Please try again.';
+      }
       
       const errorMessage: ChatMessage = {
         id: generateId(),
-        message: 'Sorry, I encountered an error. Please try again.',
+        message: userFriendlyMessage,
         isUser: false,
         timestamp: new Date().toISOString(),
         intent: 'error'
@@ -127,9 +142,23 @@ export const useChat = (): UseChatReturn => {
     setError(null);
   };
 
+  const addBotMessage = (messageText: string) => {
+    const botMessage: ChatMessage = {
+      id: generateId(),
+      message: messageText,
+      isUser: false,
+      timestamp: new Date().toISOString(),
+      confidence: 1,
+      intent: 'system'
+    };
+    
+    setMessages(prev => [...prev, botMessage]);
+  };
+
   return {
     messages,
     sendMessage,
+    addBotMessage,
     loading,
     error,
     chatbotInfo: chatbotInfoData?.chatbotInfo || null,

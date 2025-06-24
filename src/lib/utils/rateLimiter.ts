@@ -35,3 +35,46 @@ export function getClientIP(req: NextRequest): string {
   
   return 'unknown';
 }
+
+// Rate limiter class for better API usage
+class RateLimiter {
+  async checkLimit(ip: string): Promise<{
+    success: boolean;
+    limit: number;
+    remaining: number;
+    reset: number;
+  }> {
+    const now = Date.now();
+    const userLimit = rateLimitMap.get(ip);
+
+    if (!userLimit || now > userLimit.resetTime) {
+      const resetTime = now + RATE_LIMIT_WINDOW;
+      rateLimitMap.set(ip, { count: 1, resetTime });
+      return {
+        success: true,
+        limit: MAX_REQUESTS,
+        remaining: MAX_REQUESTS - 1,
+        reset: resetTime,
+      };
+    }
+
+    if (userLimit.count >= MAX_REQUESTS) {
+      return {
+        success: false,
+        limit: MAX_REQUESTS,
+        remaining: 0,
+        reset: userLimit.resetTime,
+      };
+    }
+
+    userLimit.count++;
+    return {
+      success: true,
+      limit: MAX_REQUESTS,
+      remaining: MAX_REQUESTS - userLimit.count,
+      reset: userLimit.resetTime,
+    };
+  }
+}
+
+export const rateLimiter = new RateLimiter();

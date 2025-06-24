@@ -1,0 +1,140 @@
+[
+  {
+    "intent": "about.general",
+    "utterances": [
+      "who are you",
+      "tell me about yourself",
+      "who is mohammad",
+      "about mohammad",
+      "introduce yourself",
+      "what do you do",
+      "your background",
+      "mohammad attallah"
+    ],
+    "answer": "I'm Mohammad Attallah, a passionate Full Stack Developer specializing in modern web technologies like React, Next.js, Node.js, and TypeScript. I create innovative digital solutions and have experience building scalable applications."
+  },
+  {
+    "intent": "skills.general",
+    "utterances": [
+      "what skills do you have",
+      "your skills",
+      "technical skills",
+      "what frontend skills do you have",
+      "frontend technologies",
+      "react skills",
+      "javascript skills",
+      "css skills",
+      "html skills",
+      "ui skills",
+      "client side",
+      "backend skills",
+      "server side technologies",
+      "nodejs skills",
+      "database skills",
+      "api development",
+      "server skills",
+      "full stack skills",
+      "programming languages",
+      "technologies you use"
+    ],
+    "answer": "I'm a Full Stack Developer with expertise in both frontend and backend technologies. **Frontend**: React.js, Next.js, TypeScript, JavaScript (ES6+), HTML5, CSS3, Tailwind CSS, Material-UI, Framer Motion for animations, and responsive design principles. **Backend**: Node.js, Express.js, MongoDB, PostgreSQL, REST APIs, GraphQL, and serverless functions. I also have experience with authentication systems, database design, and modern development workflows."
+  },
+  {
+    "intent": "projects.general",
+    "utterances": [
+      "show me your projects",
+      "what projects have you built",
+      "your work",
+      "portfolio projects",
+      "recent projects",
+      "projects"
+    ],
+    "answer": "I've built various projects including e-commerce platforms, portfolio websites, real-time chat applications, task management systems, and API integrations. You can view them all on mohammadattallah.live"
+  },
+  {
+    "intent": "contact.general",
+    "utterances": [
+      "how to contact you",
+      "contact information",
+      "email address",
+      "reach out",
+      "get in touch",
+      "contact mohammad"
+    ],
+    "answer": "You can reach me through the contact form on my website mohammadattallah.live, or connect with me on LinkedIn. I'm always open to discussing new opportunities and collaborations!"
+  },
+  {
+    "intent": "contact.hire",
+    "utterances": [
+      "are you available for hire",
+      "freelance work",
+      "available for projects",
+      "hiring",
+      "work together",
+      "hire mohammad"
+    ],
+    "answer": "Yes, I'm available for freelance projects and full-time opportunities! I specialize in React, Next.js, and full-stack development. Feel free to contact me through mohammadattallah.live to discuss your project requirements."
+  },
+  {
+    "intent": "contact.email",
+    "utterances": [
+      "send email",
+      "email mohammad",
+      "send message",
+      "contact via email",
+      "reach out via email",
+      "send a message to mohammad",
+      "email him",
+      "message mohammad"
+    ],
+    "answer": "I can help you send an email to Mohammad! Just provide me with your name, email address, and message, and I'll send it directly to him. What would you like to say?"
+  },
+  {
+    "intent": "portfolio.components",
+    "utterances": [
+      "tell me about portfolio components",
+      "what components are used",
+      "portfolio structure",
+      "website components",
+      "site sections",
+      "portfolio features"
+    ],
+    "answer": "Mohammad's portfolio consists of several key components: Landing Section with hero content, Skills Section showcasing technical expertise, Experience Section highlighting work history, About Me Section with personal details, Projects Section displaying work samples, Testimonials Section with client feedback, Contact Section with a contact form, and an AI Chatbot (that's me!) for interactive assistance. The site is built with React, Next.js, Material-UI, and Framer Motion for animations."
+  },
+  {
+    "intent": "portfolio.chatbot",
+    "utterances": [
+      "tell me about this chatbot",
+      "how does this chatbot work",
+      "chatbot features",
+      "ai assistant",
+      "what can you do",
+      "chatbot capabilities"
+    ],
+    "answer": "I'm Mohammad's AI assistant built with React and Node.js! I can help you learn about Mohammad's skills, projects, and experience. I use Natural Language Processing to understand your questions and provide relevant answers. I can also help you send emails directly to Mohammad, and I show confidence scores for my responses. I'm part of the portfolio's interactive features designed to enhance user engagement."
+  },
+  {
+    "intent": "portfolio.contact_form",
+    "utterances": [
+      "contact form",
+      "how to use contact form",
+      "contact form features",
+      "send message form",
+      "contact section"
+    ],
+    "answer": "The contact section features a modern form with real-time validation, animated UI elements using Framer Motion, and integrated email service. It includes fields for name, email, and message, with proper error handling and success notifications. The form sends emails directly to Mohammad using Nodemailer service."
+  },
+  {
+    "intent": "default.fallback",
+    "utterances": [
+      "hello",
+      "hi",
+      "hey",
+      "good morning",
+      "good afternoon",
+      "thanks",
+      "thank you"
+    ],
+    "answer": "Hello! I'm Mohammad's AI assistant. I can help you learn more about Mohammad's skills, projects, experience, and services. What would you like to know?"
+  }
+]

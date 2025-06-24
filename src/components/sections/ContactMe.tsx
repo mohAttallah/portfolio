@@ -125,7 +125,6 @@ export default function ContactSection() {
 
   const handleSnackbarClose = () => {
     setOpenSnackbar(false);
-    // Reset email hook state when snackbar closes
     if (emailError || emailSuccess) {
       resetEmail();
     }
@@ -139,7 +138,6 @@ export default function ContactSection() {
       variants={staggerContainer}
     >
       <Grid2 container spacing={4} alignItems="center">
-        {/* Left side - Contact information */}
         <Grid2 size={{ xs: 12, md: 6 }} component={motion.div} variants={fadeInUp} transition={{ duration: 0.5 }}>
           <motion.div variants={fadeInUp} transition={{ duration: 0.6 }}>
             <Typography variant="h4" fontWeight={700} color="primary">
